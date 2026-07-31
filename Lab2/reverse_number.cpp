@@ -6,7 +6,7 @@ int main() {
     std::cout << "Enter an integer: ";
     std::cin >> num;
 
-    int original = num; // Keep original copy if needed
+    int original = num; 
 
     while (num != 0) {
         remainder = num % 10;
