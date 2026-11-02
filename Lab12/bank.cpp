@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-// Base class
+
 class Account {
 protected:
     int accountNumber;
@@ -45,7 +45,7 @@ public:
     virtual ~Account() {}
 };
 
-// Derived class: Savings Account
+
 class SavingsAccount : public Account {
 public:
     SavingsAccount(int accNo, string name, double bal)
@@ -66,7 +66,7 @@ public:
     }
 };
 
-// Derived class: Checking Account
+
 class CheckingAccount : public Account {
 public:
     CheckingAccount(int accNo, string name, double bal)
@@ -87,7 +87,7 @@ public:
     }
 };
 
-// Main function
+
 int main() {
     int choice, accType;
     double amount;
