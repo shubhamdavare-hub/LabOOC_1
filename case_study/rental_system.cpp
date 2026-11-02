@@ -1,263 +1,246 @@
 
-import java.util.ArrayList;
-import java.util.Scanner;
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
 
-// Vehicle class
 class Vehicle {
-    private int vehicleId;
-    private String brand;
-    private String model;
-    private double rentPerDay;
-    private boolean available;
+private:
+    int vehicleId;
+    string brand;
+    string model;
+    double rentPerDay;
+    bool available;
 
-    // Constructor
-    public Vehicle(int vehicleId, String brand, String model, double rentPerDay) {
-        this.vehicleId = vehicleId;
-        this.brand = brand;
-        this.model = model;
-        this.rentPerDay = rentPerDay;
-        this.available = true;
+public:
+    Vehicle(int vehicleId, string brand, string model, double rentPerDay) {
+        this->vehicleId = vehicleId;
+        this->brand = brand;
+        this->model = model;
+        this->rentPerDay = rentPerDay;
+        this->available = true;
     }
 
-    // Getter methods
-    public int getVehicleId() {
+    int getVehicleId() {
         return vehicleId;
     }
 
-    public double getRentPerDay() {
+    double getRentPerDay() {
         return rentPerDay;
     }
 
-    public boolean isAvailable() {
+    bool isAvailable() {
         return available;
     }
 
-    // Rent vehicle
-    public void rentVehicle() {
+    void rentVehicle() {
         available = false;
     }
 
-    // Return vehicle
-    public void returnVehicle() {
+    void returnVehicle() {
         available = true;
     }
 
-    // Display vehicle details
-    public void displayVehicle() {
-        System.out.println(
-            "ID: " + vehicleId +
-            " | Brand: " + brand +
-            " | Model: " + model +
-            " | Rent/Day: Rs. " + rentPerDay +
-            " | Status: " + (available ? "Available" : "Rented")
-        );
+    void displayVehicle() {
+        cout << "ID: " << vehicleId
+             << " | Brand: " << brand
+             << " | Model: " << model
+             << " | Rent/Day: Rs. " << rentPerDay
+             << " | Status: " << (available ? "Available" : "Rented")
+             << endl;
     }
-}
+};
 
-// Customer class
 class Customer {
-    private int customerId;
-    private String name;
+private:
+    int customerId;
+    string name;
 
-    // Constructor
-    public Customer(int customerId, String name) {
-        this.customerId = customerId;
-        this.name = name;
+public:
+    Customer(int customerId, string name) {
+        this->customerId = customerId;
+        this->name = name;
     }
 
-    // Getter methods
-    public int getCustomerId() {
+    int getCustomerId() {
         return customerId;
     }
 
-    public String getName() {
+    string getName() {
         return name;
     }
-}
+};
 
-// RentalSystem class
 class RentalSystem {
-    private ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private ArrayList<Customer> customers = new ArrayList<>();
+private:
+    vector<Vehicle> vehicles;
+    vector<Customer> customers;
 
-    // Add vehicle
-    public void addVehicle(Vehicle vehicle) {
-        vehicles.add(vehicle);
+    Vehicle* findVehicle(int vehicleId) {
+        for (auto &vehicle : vehicles) {
+            if (vehicle.getVehicleId() == vehicleId) {
+                return &vehicle;
+            }
+        }
+        return nullptr;
     }
 
-    // Add customer
-    public void addCustomer(Customer customer) {
-        customers.add(customer);
+public:
+    void addVehicle(Vehicle vehicle) {
+        vehicles.push_back(vehicle);
     }
 
-    // Display all vehicles
-    public void displayVehicles() {
-        System.out.println("\n----- VEHICLE LIST -----");
+    void addCustomer(Customer customer) {
+        customers.push_back(customer);
+    }
 
-        if (vehicles.isEmpty()) {
-            System.out.println("No vehicles registered.");
+    void displayVehicles() {
+        cout << "\n----- VEHICLE LIST -----" << endl;
+
+        if (vehicles.empty()) {
+            cout << "No vehicles registered." << endl;
             return;
         }
 
-        for (Vehicle vehicle : vehicles) {
+        for (auto &vehicle : vehicles) {
             vehicle.displayVehicle();
         }
     }
 
-    // Find vehicle by ID
-    private Vehicle findVehicle(int vehicleId) {
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getVehicleId() == vehicleId) {
-                return vehicle;
-            }
-        }
-
-        return null;
-    }
-
-    // Rent vehicle
-    public void rentVehicle(int vehicleId, int days) {
+    void rentVehicle(int vehicleId, int days) {
         if (days <= 0) {
-            System.out.println("Rental days must be greater than zero.");
+            cout << "Rental days must be greater than zero." << endl;
             return;
         }
 
-        Vehicle vehicle = findVehicle(vehicleId);
+        Vehicle* vehicle = findVehicle(vehicleId);
 
-        if (vehicle == null) {
-            System.out.println("Vehicle not found.");
+        if (vehicle == nullptr) {
+            cout << "Vehicle not found." << endl;
             return;
         }
 
-        if (!vehicle.isAvailable()) {
-            System.out.println("Vehicle is already rented.");
+        if (!vehicle->isAvailable()) {
+            cout << "Vehicle is already rented." << endl;
             return;
         }
 
-        double totalCost = vehicle.getRentPerDay() * days;
+        double totalCost = vehicle->getRentPerDay() * days;
 
-        vehicle.rentVehicle();
+        vehicle->rentVehicle();
 
-        System.out.println("\nVehicle rented successfully!");
-        System.out.println("Vehicle ID: " + vehicleId);
-        System.out.println("Rental Days: " + days);
-        System.out.printf("Total Cost: Rs. %.2f%n", totalCost);
+        cout << "\nVehicle rented successfully!" << endl;
+        cout << "Vehicle ID: " << vehicleId << endl;
+        cout << "Rental Days: " << days << endl;
+        cout << fixed << setprecision(2);
+        cout << "Total Cost: Rs. " << totalCost << endl;
     }
 
-    // Return vehicle
-    public void returnVehicle(int vehicleId) {
-        Vehicle vehicle = findVehicle(vehicleId);
+    void returnVehicle(int vehicleId) {
+        Vehicle* vehicle = findVehicle(vehicleId);
 
-        if (vehicle == null) {
-            System.out.println("Vehicle not found.");
+        if (vehicle == nullptr) {
+            cout << "Vehicle not found." << endl;
             return;
         }
 
-        if (vehicle.isAvailable()) {
-            System.out.println("Vehicle is already available.");
+        if (vehicle->isAvailable()) {
+            cout << "Vehicle is already available." << endl;
             return;
         }
 
-        vehicle.returnVehicle();
+        vehicle->returnVehicle();
 
-        System.out.println("Vehicle returned successfully!");
+        cout << "Vehicle returned successfully!" << endl;
     }
-}
+};
 
-// Main class
-public class VehicleRentalSystem {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+int main() {
+    RentalSystem system;
 
-        RentalSystem system = new RentalSystem();
+    Vehicle v1(101, "Toyota", "Innova", 2500);
+    Vehicle v2(102, "Honda", "City", 1800);
+    Vehicle v3(103, "Mahindra", "Thar", 3000);
 
-        // Create vehicle objects
-        Vehicle v1 = new Vehicle(101, "Toyota", "Innova", 2500);
-        Vehicle v2 = new Vehicle(102, "Honda", "City", 1800);
-        Vehicle v3 = new Vehicle(103, "Mahindra", "Thar", 3000);
+    Customer c1(1, "Rahul");
+    Customer c2(2, "Amit");
 
-        // Create customer objects
-        Customer c1 = new Customer(1, "Rahul");
-        Customer c2 = new Customer(2, "Amit");
+    system.addVehicle(v1);
+    system.addVehicle(v2);
+    system.addVehicle(v3);
 
-        // Add vehicles to the system
-        system.addVehicle(v1);
-        system.addVehicle(v2);
-        system.addVehicle(v3);
+    system.addCustomer(c1);
+    system.addCustomer(c2);
 
-        // Add customers to the system
-        system.addCustomer(c1);
-        system.addCustomer(c2);
+    int choice;
 
-        int choice;
+    do {
+        cout << "\n===== VEHICLE RENTAL SYSTEM =====" << endl;
+        cout << "1. Display Vehicles" << endl;
+        cout << "2. Rent Vehicle" << endl;
+        cout << "3. Return Vehicle" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
 
-        do {
-            System.out.println("\n===== VEHICLE RENTAL SYSTEM =====");
-            System.out.println("1. Display Vehicles");
-            System.out.println("2. Rent Vehicle");
-            System.out.println("3. Return Vehicle");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
+        if (!(cin >> choice)) {
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
 
-            if (!sc.hasNextInt()) {
-                System.out.println("Invalid input. Please enter a number.");
-                sc.next();
-                continue;
+        switch (choice) {
+            case 1:
+                system.displayVehicles();
+                break;
+
+            case 2: {
+                int rentId, days;
+
+                cout << "Enter Vehicle ID: ";
+                if (!(cin >> rentId)) {
+                    cout << "Invalid vehicle ID." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    break;
+                }
+
+                cout << "Enter number of days: ";
+                if (!(cin >> days)) {
+                    cout << "Invalid number of days." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    break;
+                }
+
+                system.rentVehicle(rentId, days);
+                break;
             }
 
-            choice = sc.nextInt();
+            case 3: {
+                int returnId;
 
-            switch (choice) {
-                case 1:
-                    system.displayVehicles();
+                cout << "Enter Vehicle ID: ";
+                if (!(cin >> returnId)) {
+                    cout << "Invalid vehicle ID." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
                     break;
+                }
 
-                case 2:
-                    System.out.print("Enter Vehicle ID: ");
-
-                    if (!sc.hasNextInt()) {
-                        System.out.println("Invalid vehicle ID.");
-                        sc.next();
-                        break;
-                    }
-
-                    int rentId = sc.nextInt();
-
-                    System.out.print("Enter number of days: ");
-
-                    if (!sc.hasNextInt()) {
-                        System.out.println("Invalid number of days.");
-                        sc.next();
-                        break;
-                    }
-
-                    int days = sc.nextInt();
-                    system.rentVehicle(rentId, days);
-                    break;
-
-                case 3:
-                    System.out.print("Enter Vehicle ID: ");
-
-                    if (!sc.hasNextInt()) {
-                        System.out.println("Invalid vehicle ID.");
-                        sc.next();
-                        break;
-                    }
-
-                    int returnId = sc.nextInt();
-                    system.returnVehicle(returnId);
-                    break;
-
-                case 4:
-                    System.out.println("Thank you for using Vehicle Rental System!");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                system.returnVehicle(returnId);
+                break;
             }
 
-        } while (choice != 4);
+            case 4:
+                cout << "Thank you for using Vehicle Rental System!" << endl;
+                break;
 
-        sc.close();
-    }
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
 }
